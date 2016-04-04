@@ -1,26 +1,19 @@
 Docker
 =========
+[![license][2i]][2p]
 
 Install docker with docker-compose for RedHat, Debian, and Suse variants.
 
-Dependencies
-------------
+Usage
+-----
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+All you need to do is add to your playbook and call from it:
 
-Example Playbook
-----------------
-
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
-
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
-
-License
--------
-
-BSD
+``` yaml
+- hosts: servers
+    roles:
+        - docker
+```
 
 Author Information
 ------------------
@@ -28,3 +21,5 @@ Author Information
 [Alejandro Baez][1]
 
 [1]: https://keybase.io/baez
+[2i]: https://img.shields.io/badge/license-BSD_2-blue.svg
+[2p]: ./LICENSE
