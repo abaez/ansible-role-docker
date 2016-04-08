@@ -2,7 +2,7 @@ Docker
 =========
 [![license][2i]][2p]
 
-Install docker with docker-compose for RedHat, Debian, and Suse variants.
+Install docker with docker-compose for a number of linux variants.
 
 Usage
 -----
