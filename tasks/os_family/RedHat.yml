@@ -1,8 +1,8 @@
 ---
 - name: install yum repo
-  template:
+  copy:
     owner=root
-    src=docker.repo
+    src=files/docker.repo
     dest=/etc/yum.repos.d/docker.repo
 
 - name: Install docker
