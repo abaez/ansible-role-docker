@@ -44,6 +44,10 @@ galaxy_info:
   - name: Debian
     versions:
     - all
+  - name: Alpine
+    versions:
+    - all
+
   galaxy_tags:
     - docker
     - opensuse
@@ -52,6 +56,7 @@ galaxy_info:
     - centos
     - ubuntu
     - arch
+    - alpine
 
 dependencies: []
   # List your role dependencies here, one per line.
