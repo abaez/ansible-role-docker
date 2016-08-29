@@ -12,7 +12,7 @@
     - python-docker-py
 
 - name: making sure pip installed
-  yum: name=python-pip state=present
+  shell: curl -sSL https://bootstrap.pypa.io/get-pip.py | python
 
 - name: Install docker-compose through pip
   pip: name=docker-compose state=latest

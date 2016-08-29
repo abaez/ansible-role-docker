@@ -7,12 +7,12 @@ Install docker with docker-compose for a number of linux variants.
 Usage
 -----
 
-All you need to do is add to your playbook and call from it:
+All you need to do is make sure you are running the role as a privileged user and append to playbook like so::
 
 ``` yaml
 - hosts: servers
     roles:
-        - docker
+        - abaez.docker
 ```
 
 Author Information
