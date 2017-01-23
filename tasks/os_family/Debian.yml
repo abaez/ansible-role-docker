@@ -1,6 +1,8 @@
 ---
 - name: Install dependencies
-  apt: name={{ item }} state=latest
+  apt:
+    name: {{ item }}
+    state: present
   with_items:
     - python
     - curl
@@ -8,17 +10,31 @@
     - ca-certificates
     - apparmor
 
+- name: add docker repository for Debian
+  shell: add-apt-repository "deb https://apt.dockerproject.org/repo/ debian-$(lsb_release -cs) main"
+  when: ansible_distribution == "Debian"
+
+- name: add docker repository for Ubuntu
+  shell: add-apt-repository "deb https://apt.dockerproject.org/repo/ ubuntu-$(lsb_release -cs) main"
+  when: ansible_distribution == "Ubuntu"
+
+- name: add key id
+  apt_key:
+    url: "https://yum.dockerproject.org/gpg"
+    state: present
+
+- name: install docker
+  apt:
+    name: docker-engine
+    update_cache: yes
+    state: present
+
 - name: install pip
   shell: curl -sSL https://bootstrap.pypa.io/get-pip.py | python
 
-- name: install docker-compose
-  shell: curl -sSL https://github.com/docker/compose/releases/download/1.6.2/run.sh > /usr/local/bin/docker-compose && chmod +x /usr/local/bin/docker-compose
-
-- name: install docker-py
-  pip: name=docker-py
-
-- name: adding apt-key
-  shell: curl -sSL https://get.docker.com/gpg | apt-key add -
-
-- name: docker package
-  shell: curl -sSL https://get.docker.com/ | sh
+- name: install docker-py and docker-compose
+  pip:
+    name: docker-py
+  with_items:
+    - docker-py
+    - docker-compose
