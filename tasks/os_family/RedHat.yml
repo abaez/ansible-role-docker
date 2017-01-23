@@ -1,19 +1,12 @@
 ---
-- name: install yum repo
-  copy:
-    owner=root
-    src=files/docker.repo
-    dest=/etc/yum.repos.d/docker.repo
 
-- name: Install docker
-  yum: name={{ item }} state=latest
-  with_items:
-    - docker-engine
-    - python-docker-py
+- name: Run the Fedora based install
+  include: "Fedora.yml"
+  when: ansible_distribution == "Fedora"
 
-- name: making sure pip installed
-  shell: curl -sSL https://bootstrap.pypa.io/get-pip.py | python
+- name: Run the RedHat based install
+  include: "RHEL.yml"
+  when: ansible_distribution != "Fedora"
 
 - name: Install docker-compose through pip
   pip: name=docker-compose state=latest
-
