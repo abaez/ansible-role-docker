@@ -5,7 +5,7 @@
     - docker
     - python-docker-py
 
-- name: docker eextra modules
+- name: docker extra modules
   zypper: name="{{ item }}" state=latest
   with_items:
     - yast2-docker
