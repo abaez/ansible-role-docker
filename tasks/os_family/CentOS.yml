@@ -1,0 +1,12 @@
+---
+
+- name: make sure docker from distro is not installed
+  yum:
+    name: docker
+    state: absent
+
+- name: Install docker
+  shell: curl -fsSL https://get.docker.com/ | sh
+
+- name: making sure pip installed
+  shell: curl -sSL https://bootstrap.pypa.io/get-pip.py | python
