@@ -6,19 +6,25 @@
     state: present
 
 - name: install docker repository
-  shell:  yum-config-manager --add-repo https://docs.docker.com/engine/installation/linux/repo_files/centos/docker.repo
+  command:  yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
 
 - name: make sure docker from distro is not installed
   yum:
-    name: docker
+    name: "{{ item }}"
     state: absent
+  with_items:
+    - docker
+    - docker-common
+    - container-selinux
+    - docker-selinux
+    - docker-engine
 
 - name: Install docker
   yum:
     name: "{{ item }}"
     state: latest
   with_items:
-    - docker-engine
+    - docker-ce
     - python-docker-py
 
 - name: making sure pip installed
