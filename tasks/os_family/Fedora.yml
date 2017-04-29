@@ -5,19 +5,25 @@
     name: dnf-plugins-core
     state: present
 
-- name: install repository
-  command: dnf config-manager --add-repo https://docs.docker.com/engine/installation/linux/repo_files/fedora/docker.repo
+- name: install docker repository
+  command: dnf config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
 
 - name: make sure docker from distro is not installed
-  dnf:
-    name: docker
+  yum:
+    name: "{{ item }}"
     state: absent
+  with_items:
+    - docker
+    - docker-common
+    - container-selinux
+    - docker-selinux
+    - docker-engine
 
 - name: install docker
   dnf:
     name: "{{ item }}"
     state: present
   with_items:
-    - docker-engine
+    - docker-ce
     - python-docker-py
     - python-pip
