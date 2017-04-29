@@ -6,7 +6,11 @@
 
 - name: Run the RedHat based install
   include: "RHEL.yml"
-  when: ansible_distribution != "Fedora"
+  when: ansible_distribution == "Redhat"
+
+- name: Run the Centos based install
+  include: "CentOS.yml"
+  when: ansible_distribution == "CentOS"
 
 - name: Install docker-compose through pip
   pip: name=docker-compose state=latest
