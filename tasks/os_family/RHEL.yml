@@ -1,0 +1,37 @@
+---
+
+- name: make sure docker from distro is not installed
+  yum:
+    name: "{{ item }}"
+    state: absent
+  with_items:
+    - docker
+    - docker-common
+    - container-selinux
+    - docker-selinux
+    - docker-engine
+
+- name: append Docker EE url
+  shell: "echo {{ item }}"
+  with_items:
+    - "{{ ee.url }} > /etc/yum/vars/dockerurl"
+    - "{{ ee.version }} > /etc/yum/vars/dockerosversion"
+
+- name: install yum-utils
+  yum:
+    name: yum-utils
+    state: present
+
+- name: install docker repository
+  command:  yum-config-manager --add-repo "{{ ee.url }}/docker-ee.repo"
+
+- name: Install docker
+  yum:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - docker-ee
+    - python-docker-py
+
+- name: making sure pip installed
+  shell: curl -sSL https://bootstrap.pypa.io/get-pip.py | python
