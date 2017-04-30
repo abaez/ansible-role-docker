@@ -8,24 +8,20 @@
     - curl
     - apt-transport-https
     - ca-certificates
-    - apparmor
+    - gnupg2
+    - software-properties-common
 
-- name: add docker repository for Debian
-  shell: add-apt-repository "deb https://apt.dockerproject.org/repo/ debian-$(lsb_release -cs) main"
-  when: ansible_distribution == "Debian"
-
-- name: add docker repository for Ubuntu
-  shell: add-apt-repository "deb https://apt.dockerproject.org/repo/ ubuntu-$(lsb_release -cs) main"
+- name: depends for Ubuntu
+  include: "Ubuntu.yml"
   when: ansible_distribution == "Ubuntu"
 
-- name: add key id
-  apt_key:
-    url: "https://yum.dockerproject.org/gpg"
-    state: present
+- name: depends for Debian
+  include: "Deb.yml"
+  when: ansible_distribution == "Debian"
 
 - name: install docker
   apt:
-    name: docker-engine
+    name: docker-ce
     update_cache: yes
     state: present
 
