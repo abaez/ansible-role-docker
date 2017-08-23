@@ -39,5 +39,5 @@
     name: '{{ item }}'
     state: present
   with_items:
-    - docker-py==1.2.3
+    - docker-py==1.10.6
     - six>=1.4.0
