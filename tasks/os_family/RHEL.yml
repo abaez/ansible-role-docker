@@ -28,3 +28,16 @@
 
 - name: making sure pip installed
   shell: curl -sSL https://bootstrap.pypa.io/get-pip.py | python
+
+- name: make sure docker-python RPM is not installed
+      yum:
+        name: docker-python
+        state: absent
+
+- name: make sure required PyPi packages are installed
+  pip:
+    name: '{{ item }}'
+    state: present
+  with_items:
+    - docker-py==1.2.3
+    - six>=1.4.0
