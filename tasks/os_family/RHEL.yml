@@ -30,9 +30,9 @@
   shell: curl -sSL https://bootstrap.pypa.io/get-pip.py | python
 
 - name: make sure docker-python RPM is not installed
-      yum:
-        name: docker-python
-        state: absent
+  yum:
+    name: docker-python
+    state: absent
 
 - name: make sure required PyPi packages are installed
   pip:
