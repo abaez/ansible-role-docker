@@ -19,6 +19,7 @@
     state: present
 
 - name: install docker repository
+  become: yes
   command:  yum-config-manager --add-repo "https://download.docker.com/linux/centos/docker-ce.repo"
 
 - name: Install docker
@@ -34,6 +35,7 @@
   shell: curl -sSL https://bootstrap.pypa.io/get-pip.py | python
 
 - name: make sure docker-python RPM is not installed
+  become: yes
   yum:
     name: docker-python
     state: absent
