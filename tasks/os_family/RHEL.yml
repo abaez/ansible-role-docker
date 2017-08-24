@@ -1,6 +1,7 @@
 ---
 
 - name: make sure docker from distro is not installed
+  become: yes
   yum:
     name: "{{ item }}"
     state: absent
@@ -12,6 +13,7 @@
     - docker-engine
 
 - name: install yum-utils
+  become: yes
   yum:
     name: yum-utils
     state: present
@@ -20,6 +22,7 @@
   command:  yum-config-manager --add-repo "https://download.docker.com/linux/centos/docker-ce.repo"
 
 - name: Install docker
+  become: yes
   yum:
     name: "{{ item }}"
     state: present
@@ -27,6 +30,7 @@
     - docker-ce
 
 - name: making sure pip installed
+  become: yes
   shell: curl -sSL https://bootstrap.pypa.io/get-pip.py | python
 
 - name: make sure docker-python RPM is not installed
@@ -35,6 +39,7 @@
     state: absent
 
 - name: make sure required PyPi packages are installed
+  become: yes
   pip:
     name: '{{ item }}'
     state: present
