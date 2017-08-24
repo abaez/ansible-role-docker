@@ -40,11 +40,19 @@
     name: docker-python
     state: absent
 
+- name: make sure NOT required PyPi packages are NOT installed
+  become: yes
+  pip:
+    name: '{{ item }}'
+    state: absent
+  with_items:
+    - docker
+
 - name: make sure required PyPi packages are installed
   become: yes
   pip:
     name: '{{ item }}'
     state: present
   with_items:
-    - docker
+    - docker-py
     - six>=1.4.0
