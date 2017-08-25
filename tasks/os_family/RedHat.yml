@@ -6,7 +6,7 @@
 
 - name: Run the RedHat based install
   include: "RHEL.yml"
-  when: ansible_distribution == "Redhat"
+  when: ansible_distribution == "RedHat"
 
 - name: Run the Centos based install
   include: "CentOS.yml"

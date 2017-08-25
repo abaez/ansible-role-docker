@@ -1,6 +1,7 @@
 ---
 
 - name: make sure docker from distro is not installed
+  become: yes
   yum:
     name: "{{ item }}"
     state: absent
@@ -11,27 +12,39 @@
     - docker-selinux
     - docker-engine
 
-- name: append Docker EE url
-  shell: "echo {{ item }}"
-  with_items:
-    - "{{ ee.url }} > /etc/yum/vars/dockerurl"
-    - "{{ ee.version }} > /etc/yum/vars/dockerosversion"
-
 - name: install yum-utils
+  become: yes
   yum:
     name: yum-utils
     state: present
 
 - name: install docker repository
-  command:  yum-config-manager --add-repo "{{ ee.url }}/docker-ee.repo"
+  become: yes
+  command:  yum-config-manager --add-repo "https://download.docker.com/linux/centos/docker-ce.repo"
 
 - name: Install docker
+  become: yes
   yum:
     name: "{{ item }}"
     state: present
   with_items:
-    - docker-ee
-    - python-docker-py
+    - docker-ce
 
 - name: making sure pip installed
+  become: yes
   shell: curl -sSL https://bootstrap.pypa.io/get-pip.py | python
+
+- name: make sure docker-python RPM is not installed
+  become: yes
+  yum:
+    name: docker-python
+    state: absent
+
+- name: make sure required PyPi packages are installed
+  become: yes
+  pip:
+    name: '{{ item }}'
+    state: present
+  with_items:
+    - docker-py==1.10.6
+    - six>=1.4.0

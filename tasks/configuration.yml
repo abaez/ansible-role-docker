@@ -1,8 +1,10 @@
 ---
 - name: enable docker
+  become: yes
   service: enabled=yes name=docker
 
 - name: start docker
+  become: yes
   service:
     name=docker
     state=restarted
