@@ -1,23 +1,42 @@
 ---
+
 - name: Install dependencies
   apt:
-    name: "{{ item }}"
+    name: [
+      python,
+      curl,
+      apt-transport-https,
+      ca-certificates,
+      gnupg2,
+      software-properties-common,
+    ]
     state: present
-  with_items:
-    - python
-    - curl
-    - apt-transport-https
-    - ca-certificates
-    - gnupg2
-    - software-properties-common
 
-- name: depends for Ubuntu
-  include: "Ubuntu.yml"
+- name: remove old docker
+  apt:
+    name: [
+      docker,
+      docker-engine,
+      docker.io,
+    ]
+    state: absent
+
+- name: extra packages for Ubuntu
+  apt:
+    name: linux-image-extra-virtual
+    state: present
   when: ansible_distribution == "Ubuntu"
 
-- name: depends for Debian
-  include: "Deb.yml"
-  when: ansible_distribution == "Debian"
+- name: add key id
+  apt_key:
+    url: "https://download.docker.com/linux/{{ ansible_distribution | lower }}/gpg"
+    state: present
+
+- name: add docker repository
+  apt_repository:
+    repo: "deb [arch=amd64] https://download.docker.com/linux/{{ ansible_distribution | lower }} {{ ansible_distribution_release | lower }} stable"
+    filename: docker
+    state: present
 
 - name: install docker
   apt:
@@ -30,7 +49,8 @@
 
 - name: install docker-py and docker-compose
   pip:
-    name: docker-py
-  with_items:
-    - docker-py
-    - docker-compose
+    name: [
+      docker-py,
+      docker-compose,
+    ]
+    state: present
